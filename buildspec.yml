@@ -2,9 +2,8 @@ version: 0.2
 
 phases:
   install:
-    commands:
-      - apt-get update -y
-      - apt-get install -y maven
+    runtime-versions:
+      java: corretto11
 
   pre_build:
     commands:
