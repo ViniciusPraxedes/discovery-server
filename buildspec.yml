@@ -1,28 +1,24 @@
 version: 0.2
-
-
-
 phases:
   install:
     runtime-versions:
       java: corretto17
 
-  pre_build:
-    commands:
-      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 248402500384.dkr.ecr.eu-north-1.amazonaws.com
-      - REPOSITORY_URI=248402500384.dkr.ecr.eu-north-1.amazonaws.com/discovery-server
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+  phases:
+    build:
+      commands:
+        - echo "Building the application..."
+        - apt-get update
+        - apt-get -y install maven
+        - mkdir /app
+        - cp pom.xml /app
+        - cd /app
+        - mvn dependency:resolve
+        - cp -r /code/* /app
+        - mvn clean
+        - mvn package -DskipTests
 
-  build:
-    commands:
-      - mvn clean install
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-
-  post_build:
-    commands:
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - DOCKER_CONTAINER_NAME=discovery-server
-      - printf '[{"name":"%s","imageUri":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+  artifacts:
+    files: /app/target/*.jar
+    name: app
 
