@@ -7,7 +7,7 @@ RUN mvn clean
 RUN mvn package -DskipTests
 
 
-FROM openjdk:19.0.2
+FROM openjdk
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8010
 CMD ["java", "-jar", "app.jar"]
