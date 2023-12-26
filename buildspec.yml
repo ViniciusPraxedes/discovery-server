@@ -6,7 +6,6 @@ phases:
   install:
     runtime-versions:
       java: corretto17
-      maven: 3.9.6
 
   pre_build:
     commands:
