@@ -1,9 +1,6 @@
 version: 0.2
-phases:
-  install:
-    runtime-versions:
-      java: corretto17
 
+phases:
     build:
       commands:
         - echo "Building the application..."
@@ -16,8 +13,10 @@ phases:
         - cp -r /code/* /app
         - mvn clean
         - mvn package -DskipTests
-
-  artifacts:
+    post_build:
+      commands:
+        - GG easy
+artifacts:
     files: /app/target/*.jar
     name: app
 
