@@ -8,6 +8,7 @@ phases:
       commands:
         - echo Success
 artifacts:
-    files: /app/target/*.jar
-    name: app
+    files:
+      - target/discovery-server.jar
+    discard-paths: yes
 
