@@ -5,7 +5,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: openjdk-19
+      java: corretto17
       maven: 3.9.6
 
   pre_build:
