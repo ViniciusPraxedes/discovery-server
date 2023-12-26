@@ -7,7 +7,7 @@ RUN mvn clean
 RUN mvn package -DskipTests
 
 
-FROM eclipse-temurin:17.0.4.1_1-jre
+FROM openjdk:19
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8010
 CMD ["java", "-jar", "app.jar"]
